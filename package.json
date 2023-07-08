@@ -6,14 +6,18 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "dev": "concurrently \"json-server -w db.json --port 3000\" \"nodemon app.js\""
   },
   "author": "hoangnm",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.4.0",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2"
   },
   "devDependencies": {
+    "json-server": "^0.17.3",
     "nodemon": "^2.0.22"
   }
 }
