@@ -1,19 +1,12 @@
-import express from "express";
 import axios from "axios";
 import dotenv from "dotenv";
-
-const app = express();
 dotenv.config();
 
-const { PORT, API_URL } = process.env;
-// destructuring
+const { DB_URL } = process.env;
 
-app.use(express.json());
-
-// Request product list
-app.get("/products", async (req, res) => {
+export const getAll = async (req, res) => {
   try {
-    const { data } = await axios.get(`${API_URL}/products`);
+    const { data } = await axios.get(`${DB_URL}/products`);
     if (!data) {
       return res.status(404).json({
         message: "Products not found",
@@ -28,11 +21,11 @@ app.get("/products", async (req, res) => {
       message: error.message,
     });
   }
-});
+};
 
-app.get("/products/:id", async (req, res) => {
+export const getDetail = async (req, res) => {
   try {
-    const { data } = await axios.get(`${API_URL}/products/${req.params.id}`);
+    const { data } = await axios.get(`${DB_URL}/products/${req.params.id}`);
     if (!data) {
       return res.status(404).json({
         message: "Product not found",
@@ -47,11 +40,11 @@ app.get("/products/:id", async (req, res) => {
       message: error.message,
     });
   }
-});
+};
 
-app.post("/products", async (req, res) => {
+export const create = async (req, res) => {
   try {
-    const { data } = await axios.post(`${API_URL}/products/`, req.body);
+    const { data } = await axios.post(`${DB_URL}/products/`, req.body);
     if (!data) {
       return res.status(404).json({
         message: "Create Product not successful",
@@ -66,12 +59,12 @@ app.post("/products", async (req, res) => {
       message: error.message,
     });
   }
-});
+};
 
-app.put("/products/:id", async (req, res) => {
+export const update = async (req, res) => {
   try {
     const { data } = await axios.put(
-      `${API_URL}/products/${req.params.id}`,
+      `${DB_URL}/products/${req.params.id}`,
       req.body
     );
     if (!data) {
@@ -88,12 +81,12 @@ app.put("/products/:id", async (req, res) => {
       message: error.message,
     });
   }
-});
+};
 
-app.delete("/products/:id", async (req, res) => {
+export const remove = async (req, res) => {
   try {
     const { status } = await axios.delete(
-      `${API_URL}/products/${req.params.id}`
+      `${DB_URL}/products/${req.params.id}`
     );
 
     if (!status || status !== 200) {
@@ -109,8 +102,4 @@ app.delete("/products/:id", async (req, res) => {
       message: error.message,
     });
   }
-});
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+};

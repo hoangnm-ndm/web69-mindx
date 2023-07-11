@@ -2,12 +2,12 @@
   "name": "web69",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/app.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js",
-    "dev": "concurrently \"json-server -w db.json --port 3000\" \"nodemon app.js\""
+    "start": "nodemon --experimental-specifier-resolution=node src/app.js",
+    "dev": "concurrently \"json-server -w db.json --port 3000\" \"nodemon --experimental-specifier-resolution=node src/app.js\""
   },
   "author": "hoangnm",
   "license": "ISC",
