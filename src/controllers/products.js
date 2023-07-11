@@ -1,5 +1,6 @@
 import axios from "axios";
 import dotenv from "dotenv";
+import productValidator from "../validations/products";
 dotenv.config();
 
 const { DB_URL } = process.env;
@@ -44,6 +45,12 @@ export const getDetail = async (req, res) => {
 
 export const create = async (req, res) => {
   try {
+    const { error } = productValidator.validate(req.body);
+    if (error) {
+      return res.status(400).json({
+        message: error.details[0].message || "Please re-check your data!",
+      });
+    }
     const { data } = await axios.post(`${DB_URL}/products/`, req.body);
     if (!data) {
       return res.status(404).json({
@@ -63,6 +70,12 @@ export const create = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
+    const { error } = productValidator.validate(req.body);
+    if (error) {
+      return res.status(400).json({
+        message: error.details[0].message || "Please re-check your data!",
+      });
+    }
     const { data } = await axios.put(
       `${DB_URL}/products/${req.params.id}`,
       req.body
