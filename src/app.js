@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import router from "./routes";
+import mongoose from "mongoose";
 
 const app = express();
 dotenv.config();
@@ -10,13 +11,11 @@ const { PORT } = process.env;
 
 app.use(express.json());
 
-// app.get("/products", getAll);
-// app.get("/products/:id", getDetail);
-// app.post("/products", create);
-// app.put("/products/:id", update);
-// app.delete("/products/:id", remove);
+mongoose.connect("mongodb://127.0.0.1:27017/web69").then(() => {
+  console.log("Database connection established!")
+})
 
-app.use("/", router);
+app.use("/api", router);
 
 // categories, comments, feedback, about, users, ....
 
