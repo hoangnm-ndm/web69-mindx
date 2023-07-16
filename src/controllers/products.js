@@ -1,8 +1,6 @@
-import axios from "axios";
 import dotenv from "dotenv";
-import productValidator from "../validations/products";
-import Product from "../models/Product";
-import { trusted } from "mongoose";
+import productValidator from "../validations/products.js";
+import Product from "../models/Product.js";
 dotenv.config();
 
 const { DB_URL } = process.env;
