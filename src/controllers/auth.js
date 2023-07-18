@@ -3,6 +3,12 @@ import { signInValidator, signUpValidator } from "../validations/users"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
+import dotenv from "dotenv"
+
+dotenv.config()
+
+const { SECRET_CODE } = process.env
+
 export const signUp = async(req, res) => {
     try {
         // Bước 1: valid dữ liệu người dùng
@@ -75,7 +81,7 @@ export const signIn = async (req, res) => {
 
         // Tạo JWT:
 
-        const accessToken = jwt.sign({_id: user._id}, "banThayHoang", { expiresIn: "1d"})
+        const accessToken = jwt.sign({_id: user._id}, SECRET_CODE, { expiresIn: "1d"})
 
         // Return result:
         user.password = undefined
