@@ -6,13 +6,14 @@ import {
   remove,
   update,
 } from "../controllers/products.js";
+import { checkPermission } from "../middlewares/checkPermission.js";
 
 const routerProducts = Router();
 
 routerProducts.get("/", getAll);
 routerProducts.get("/:id", getDetail);
-routerProducts.post("/", create);
-routerProducts.put("/:id", update);
-routerProducts.delete("/:id", remove);
+routerProducts.post("/",checkPermission, create);
+routerProducts.put("/:id",checkPermission, update);
+routerProducts.delete("/:id",checkPermission, remove);
 
 export default routerProducts;

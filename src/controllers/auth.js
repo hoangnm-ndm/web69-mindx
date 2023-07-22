@@ -1,6 +1,7 @@
 import User from "../models/User"
 import { signInValidator, signUpValidator } from "../validations/users"
 import bcrypt from "bcrypt"
+// Các thư viện hỗ trợ mã hoá: bcrypt, bcryptjs, md5...
 import jwt from "jsonwebtoken"
 
 import dotenv from "dotenv"
@@ -26,8 +27,11 @@ export const signUp = async(req, res) => {
         const userExists  = await User.findOne({ email: req.body.email})
         if(userExists) {
             return res.status(400).json({
-                message: "Email này đã được đăng ký!"
+                message: "Email này đã được đăng ký, bạn có muốn đăng nhập không?"
             })
+            // Cách 2: Sử dụng throw new Error:
+            // throw 404
+            // throw new Error("Email này đã được đăng ký, bạn có muốn đăng nhập không?")
         }
 
         // Bước 3: Mã hoá password.
@@ -35,8 +39,10 @@ export const signUp = async(req, res) => {
 
         // Bước 4: Tạo và lưu account vào database.
         const user = await User.create({
-            ...req.body,
-            password: hashedPassword
+            userName: req.body.userName,
+            email: req.body.email,
+            password: hashedPassword,
+            role: req.body.role
         })
         
         // Bước 5: Trả ra thông báo cho client
@@ -48,6 +54,7 @@ export const signUp = async(req, res) => {
 
     } catch (error) {
         return res.status(500).json({
+            name: error.name,
             message: error.message
         })
     }
