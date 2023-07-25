@@ -50,7 +50,7 @@ _7. Bắt đầu từ buổi 7 cho các bạn chia nhóm thực hành và phân 
 
 # Buổi 8:
 1. CRUD cho categories (hoặc brands, types...)
-2. Kết nối các collection với populate
+2. Kết nối các collections (categories and products)
 3. Quan hệ 1 - nhiều, quan hệ nhiều - nhiều.
 
 ## Phần thực hành:

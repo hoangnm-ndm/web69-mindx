@@ -20,30 +20,18 @@ export const checkPermission = async (req, res, next) => {
         // Bước 2: Giải mã token (ngắn gọn)
         const decoded =  jwt.verify(token, SECRET_CODE)
 
-        // Cách 2: chi tiết
-        // jwt.verify(token, SECRET_CODE, async (err, decoded) => {
-        //     if(err) {
-        //         if(err.name === "TokenExpiredError") {
-        //             return res.status(401).json({
-        //                 message: "Token hết hạn!" || err.message
-        //             })
-        //         }
-        //         if(err.name === "JsonWebTokenError") {
-        //             return res.status(401).json({
-        //                 message: "Token lỗi!" || err.message
-        //             })
-        //         }
+        // Cách 1:
+        // if(!decoded) {
+        //     return res.status(400).json({
+        //         message: "Token lỗi!"
+        //     })
+        // }
 
-        //         if(err.name === "NotBeforeError") {
-        //             return res.status(401).json({
-        //                 message: "Token không hoạt động!" || err.message
-        //             })
-        //         }
+        // Cách 2:
+        if(!decoded) {
+            throw new Error("Token hết hạn hoặc không hợp lệ!")
+        }
 
-        //     }
-        //     const user = await User.findById(decoded._id)
-        // })
-        
         // Bước 3: tìm user dựa trên token.payload đã giải mã.
         const user = await User.findById(decoded._id)
 
