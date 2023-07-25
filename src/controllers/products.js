@@ -6,7 +6,7 @@ dotenv.config();
 
 export const getAll = async (req, res) => {
   try {
-    const data = await Product.find({}).populate("categoryId")
+    const data = await Product.find({})
     if (!data && data.length === 0) {
       return res.status(404).json({
         message: "Products not found",
@@ -25,7 +25,7 @@ export const getAll = async (req, res) => {
 
 export const getDetail = async (req, res) => {
   try {
-    const data  = await Product.findById(req.params.id).populate("categoryId")
+    const data  = await Product.findById(req.params.id)
     if (!data) {
       return res.status(404).json({
         message: "Product not found",
@@ -57,20 +57,6 @@ export const create = async (req, res) => {
       });
     }
 
-    // Cập nhật danh mục mà liên quan đến sản phẩm vừa thêm.
-    const updateCategories =  await Category.findByIdAndUpdate(data.categoryId, {
-      $addToSet: {
-        products: data._id
-      }
-    })
-
-    // Sau này: xử lý danh mục mặc định cho sản phẩm khi admin không nhập danh mục.
-
-    if(!updateCategories) {
-      return res.status(404).json({
-        message: "Add Category for new product not successful",
-      });
-    }
     return res.status(200).json({
       message: "Create Product successful",
       products: data,
@@ -98,19 +84,6 @@ export const update = async (req, res) => {
       });
     }
 
-    // Cập nhật danh mục mà liên quan đến sản phẩm vừa thêm.
-    // _id không bao giờ thay đổi.
-    const updateCategories =  await Category.findByIdAndUpdate(data.categoryId, {
-      $addToSet: {
-        products: data._id
-      }
-    })
-
-    if(!updateCategories) {
-      return res.status(404).json({
-        message: "Add Category for new product not successful",
-      });
-    }
     return res.status(200).json({
       message: "Update Product successful",
       products: data,
