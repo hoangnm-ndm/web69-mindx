@@ -18,6 +18,10 @@ const productSchema = new mongoose.Schema({
         ref: "Category",
         required: true
     },
+    // commentId: 
+    // rate:
+    // urlImages: [] -> Xử lý upload ảnh: multer, cloudiary.
+    // thumnails:
 }, {
     versionKey: false, timestamps: true
 })
