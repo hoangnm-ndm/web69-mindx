@@ -1,12 +1,12 @@
 import dotenv from "dotenv";
-import productValidator from "../validations/products.js";
+import productValidator from "../validations/product.js";
 import Product from "../models/Product.js";
 import Category from "../models/Category.js";
 dotenv.config();
 
 export const getAll = async (req, res) => {
   try {
-    const data = await Product.find({})
+    const data = await Product.find({}).populate("categoryId")
     if (!data && data.length === 0) {
       return res.status(404).json({
         message: "Products not found",
@@ -25,7 +25,7 @@ export const getAll = async (req, res) => {
 
 export const getDetail = async (req, res) => {
   try {
-    const data  = await Product.findById(req.params.id)
+    const data  = await Product.findById(req.params.id).populate("categoryId")
     if (!data) {
       return res.status(404).json({
         message: "Product not found",
@@ -54,6 +54,18 @@ export const create = async (req, res) => {
     if (!data) {
       return res.status(404).json({
         message: "Create Product not successful",
+      });
+    }
+
+    const updateCategory = await Category.findByIdAndUpdate(data.categoryId, {
+      $addToSet: {
+        products: data._id
+      }
+    })
+
+    if(!updateCategory) {
+      return res.status(404).json({
+        message: "Update category not successful",
       });
     }
 
