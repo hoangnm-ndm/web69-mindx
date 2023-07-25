@@ -104,3 +104,9 @@ export const signIn = async (req, res) => {
         })
     }
 }
+
+// function Update User
+
+export const updateUser = async(req, res) => {
+    
+}

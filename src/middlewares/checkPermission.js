@@ -55,14 +55,15 @@ export const checkPermission = async (req, res, next) => {
         // if(!user) {
         //     throw new Error("Tài khoản không tồn tại!")
         // }
-
         // if(user.role === "member"){
-
         // } else if( user.role === "VIP")
 
 
         // Sử dụng case switch để check quyền cho từng loại quyền.
-
+        // quyền lớn nhất
+        // quyền chủ đại lý
+        // quyền thu ngân
+        // Mỗi quyền là đặc thù của bussiness.
         // Next:
         next()
 
