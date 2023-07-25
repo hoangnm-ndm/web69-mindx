@@ -1,14 +1,12 @@
 import dotenv from "dotenv";
-import productValidator from "../validations/products.js";
+import productValidator from "../validations/product.js";
 import Product from "../models/Product.js";
+import Category from "../models/Category.js";
 dotenv.config();
-
-const { DB_URL } = process.env;
 
 export const getAll = async (req, res) => {
   try {
-    // const { data } = await axios.get(`${DB_URL}/products`);
-    const data = await Product.find({})
+    const data = await Product.find({}).populate("categoryId")
     if (!data && data.length === 0) {
       return res.status(404).json({
         message: "Products not found",
@@ -27,9 +25,8 @@ export const getAll = async (req, res) => {
 
 export const getDetail = async (req, res) => {
   try {
-    // const { data } = await axios.get(`${DB_URL}/products/${req.params.id}`);
     // const data  = await Product.find({ _id: id})
-    const data  = await Product.findById(req.params.id)
+    const data  = await Product.findById(req.params.id).populate("categoryId")
     if (!data) {
       return res.status(404).json({
         message: "Product not found",
@@ -54,13 +51,28 @@ export const create = async (req, res) => {
         message: error.details[0].message || "Please re-check your data!",
       });
     }
-    // const { data } = await axios.post(`${DB_URL}/products/`, req.body);
     const data = await Product.create(req.body)
     if (!data) {
       return res.status(404).json({
         message: "Create Product not successful",
       });
     }
+    const updateCategories = await Category.findByIdAndUpdate(data.categoryId, {
+      $addToSet: {
+        products: data._id
+      }
+    })
+    
+    // Sau này sẽ xử lý trường hợp không thể thêm danh mục thành công thì add sản phẩm vào danh mục mặc định
+    if(!updateCategories) {
+      return res.status(404).json({
+        message: "Add a category for the product that is having the error",
+      });
+    }
+
+    // Cập nhật cả category tương ứng với sản phẩm đã được thêm.
+    console.log(Product.categoryId)
+    await Category.findByIdAndUpdate(Product.categoryId)
     return res.status(200).json({
       message: "Create Product successful",
       products: data,
@@ -80,17 +92,17 @@ export const update = async (req, res) => {
         message: error.details[0].message || "Please re-check your data!",
       });
     }
-    // const { data } = await axios.put(
-    //   `${DB_URL}/products/${req.params.id}`,
-    //   req.body
-    // );
 
     const data = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true})
+
     if (!data) {
       return res.status(404).json({
         message: "Update Product not successful",
       });
     }
+
+    // Cập nhật cả category tương ứng với sản phẩm đã được thêm.
+    await Category.findByIdAndUpdate(Product.categoryId)
     return res.status(200).json({
       message: "Update Product successful",
       products: data,
@@ -104,10 +116,6 @@ export const update = async (req, res) => {
 
 export const remove = async (req, res) => {
   try {
-    // const { status } = await axios.delete(
-    //   `${DB_URL}/products/${req.params.id}`
-    // );
-
     const data = await Product.findByIdAndDelete(req.params.id)
 
     if (!data) {
@@ -115,6 +123,8 @@ export const remove = async (req, res) => {
         message: "Delete product not successful",
       });
     }
+    // Cập nhật cả category tương ứng với sản phẩm đã được thêm.
+    await Category.findByIdAndUpdate(Product.categoryId)
     return res.status(200).json({
       message: "Delete product successful",
       data
