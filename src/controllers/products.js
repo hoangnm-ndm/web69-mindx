@@ -5,9 +5,35 @@ import Category from "../models/Category.js";
 dotenv.config();
 
 export const getAll = async (req, res) => {
+  // Phân trang
+  // Sắp xếp
+
   try {
-    const data = await Product.find({}).populate("categoryId")
-    if (!data && data.length === 0) {
+    // const _page =  req.query._page || 1
+    // const _limit = req.query._limit || 10
+    // const _sort = req.query._sort || "createdAt"
+    // const _order =req.query._order || 'asc'
+
+    const {
+      _page = 1,
+      _limit = 10,
+      _sort = "createdAt",
+      _order = "asc"
+    } = req.query
+
+    // order with string, number, datetime
+    // -> customer order function 
+
+    const options = {
+      page: _page,
+      limit: _limit,
+      // sort by createdAt/price/rate...
+      [_sort]: _order === "desc" ? -1 : 1
+    }
+    // const data = await Product.find({})
+    const data = await Product.paginate({}, options)
+    console.log(data)
+    if (!data.docs && data.docs.length === 0) {
       return res.status(404).json({
         message: "Products not found",
       });
