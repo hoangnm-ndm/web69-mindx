@@ -18,21 +18,21 @@ export const getAll = async (req, res) => {
       _page = 1,
       _limit = 10,
       _sort = "createdAt",
-      _order = "asc"
-    } = req.query
+      _order = "asc",
+    } = req.query;
 
     // order with string, number, datetime
-    // -> customer order function 
+    // -> customer order function
 
     const options = {
       page: _page,
       limit: _limit,
       // sort by createdAt/price/rate...
-      [_sort]: _order === "desc" ? -1 : 1
-    }
+      [_sort]: _order === "desc" ? -1 : 1,
+    };
     // const data = await Product.find({})
-    const data = await Product.paginate({}, options)
-    console.log(data)
+    const data = await Product.paginate({}, options);
+    console.log(data);
     if (!data.docs && data.docs.length === 0) {
       return res.status(404).json({
         message: "Products not found",
@@ -51,7 +51,7 @@ export const getAll = async (req, res) => {
 
 export const getDetail = async (req, res) => {
   try {
-    const data  = await Product.findById(req.params.id).populate("categoryId")
+    const data = await Product.findById(req.params.id).populate("categoryId");
     if (!data) {
       return res.status(404).json({
         message: "Product not found",
@@ -76,7 +76,7 @@ export const create = async (req, res) => {
         message: error.details[0].message || "Please re-check your data!",
       });
     }
-    const data = await Product.create(req.body)
+    const data = await Product.create(req.body);
     if (!data) {
       return res.status(404).json({
         message: "Create Product not successful",
@@ -84,15 +84,15 @@ export const create = async (req, res) => {
     }
 
     // Cập nhật danh mục mà liên quan đến sản phẩm vừa thêm.
-    const updateCategories =  await Category.findByIdAndUpdate(data.categoryId, {
+    const updateCategories = await Category.findByIdAndUpdate(data.categoryId, {
       $addToSet: {
-        products: data._id
-      }
-    })
+        products: data._id,
+      },
+    });
 
     // Sau này: xử lý danh mục mặc định cho sản phẩm khi admin không nhập danh mục.
 
-    if(!updateCategories) {
+    if (!updateCategories) {
       return res.status(404).json({
         message: "Add Category for new product not successful",
       });
@@ -117,7 +117,9 @@ export const update = async (req, res) => {
       });
     }
 
-    const data = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true})
+    const data = await Product.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
     if (!data) {
       return res.status(404).json({
         message: "Update Product not successful",
@@ -126,13 +128,13 @@ export const update = async (req, res) => {
 
     // Cập nhật danh mục mà liên quan đến sản phẩm vừa thêm.
     // _id không bao giờ thay đổi.
-    const updateCategories =  await Category.findByIdAndUpdate(data.categoryId, {
+    const updateCategories = await Category.findByIdAndUpdate(data.categoryId, {
       $addToSet: {
-        products: data._id
-      }
-    })
+        products: data._id,
+      },
+    });
 
-    if(!updateCategories) {
+    if (!updateCategories) {
       return res.status(404).json({
         message: "Add Category for new product not successful",
       });
@@ -150,7 +152,7 @@ export const update = async (req, res) => {
 
 export const remove = async (req, res) => {
   try {
-    const data = await Product.findByIdAndDelete(req.params.id)
+    const data = await Product.findByIdAndDelete(req.params.id);
 
     if (!data) {
       return res.status(404).json({
@@ -159,7 +161,7 @@ export const remove = async (req, res) => {
     }
     return res.status(200).json({
       message: "Delete product successful",
-      data
+      data,
     });
   } catch (error) {
     return res.status(500).json({

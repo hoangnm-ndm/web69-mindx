@@ -39,7 +39,6 @@ _7. Bắt đầu từ buổi 7 cho các bạn chia nhóm thực hành và phân 
 (vì vậy từ buổi 6 các nội dung mới triển khai chỉ chiếm 60-70% thời lượng)
 (Các mentor giảng viên hướng dẫn các bạn biết cách làm việc nhóm với git flow và trello (hoặc jira) theo Agile-scrum dần qua từng buổi)_
 
-
 # Buổi 7:
 1. Phân quyền (nhắc lại về authorization, authentication, middleware -> checkPermission...)
 2. Xây dựng quyền riêng cho admin, private router
@@ -71,7 +70,14 @@ _Một số gợi ý:_
 
 1. Node mailer. Đăng ký và xác thực với email
 2. OTP - token dạng One Time Password
-3. Upload ảnh với cloundiary
+3. Upload ảnh với cloundiary, multer
 4. Redux
 5. Nextjs
 6. Redux toolkit, redux thunk, redux saga (tuỳ chọn dựa theo từng mentor)
+
+// Một số vấn đề của nodejs services
+- Thừa dữ liệu trong một API response
+- Khi số lượng bản ghi nhiều thì find() sao cho tối ưu.
+- Nén data gửi đi để làm giảm băng thông và giảm tải cho server bằng cách nào?
+- index trong nodejs dùng để làm gì
+- 
