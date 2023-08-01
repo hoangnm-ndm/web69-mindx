@@ -32,7 +32,7 @@ export const getAll = async (req, res) => {
     };
     // const data = await Product.find({})
     const data = await Product.paginate({}, options);
-    console.log(data);
+    // console.log(data);
     if (!data.docs && data.docs.length === 0) {
       return res.status(404).json({
         message: "Products not found",
