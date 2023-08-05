@@ -21,10 +21,16 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     // imgs: [
-    //   {"url1": "https://cloudinary/jhsdjshcnncjdc", "title": "anh A", "alt": "chu thich cho anh A"},
-    //   {"url1": "https://cloudinary/jhsdjshcnncjdc", "title": "anh A", "alt": "chu thich cho anh A"},
-    //   {"url1": "https://cloudinary/jhsdjshcnncjdc", "title": "anh A", "alt": "chu thich cho anh A"},
+    //   {"url1": "https://res.cloudinary.com/dby8jthcx/image/upload/v1691241248/web69/fszgou3x4lv1scgv0mub.jpg", "title": "anh A", "alt": "chu thich cho anh A"},
+    //   {"url1": "https://res.cloudinary.com/dby8jthcx/image/upload/v1691241248/web69/fszgou3x4lv1scgv0mub.jpg", "title": "anh A", "alt": "chu thich cho anh A"},
+    //   {"url1": "https://res.cloudinary.com/dby8jthcx/image/upload/v1691241248/web69/fszgou3x4lv1scgv0mub.jpg", "title": "anh A", "alt": "chu thich cho anh A"},
     // ]
+    imgs: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
   },
   {
     versionKey: false,
