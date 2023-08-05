@@ -20,6 +20,11 @@ const productSchema = new mongoose.Schema(
       ref: "Category",
       required: true,
     },
+    // imgs: [
+    //   {"url1": "https://cloudinary/jhsdjshcnncjdc", "title": "anh A", "alt": "chu thich cho anh A"},
+    //   {"url1": "https://cloudinary/jhsdjshcnncjdc", "title": "anh A", "alt": "chu thich cho anh A"},
+    //   {"url1": "https://cloudinary/jhsdjshcnncjdc", "title": "anh A", "alt": "chu thich cho anh A"},
+    // ]
   },
   {
     versionKey: false,

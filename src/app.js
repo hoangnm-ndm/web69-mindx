@@ -9,12 +9,12 @@ dotenv.config();
 
 const { PORT, DB_URI } = process.env;
 
-app.use(cors())
+app.use(cors());
 app.use(express.json());
 
 mongoose.connect(`${DB_URI}`).then(() => {
-  console.log("Database connection established!")
-})
+  console.log("Database connection established!");
+});
 
 app.use("/api", router);
 
